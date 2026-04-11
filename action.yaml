@@ -14,3 +14,9 @@ runs:
       shell: bash
       env:
         INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+
+    - name: Goodbye
+      run: echo "Goodbye $INPUT_WHO_TO_GREET"
+      shell: bash
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
