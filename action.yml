@@ -1,0 +1,177 @@
+name: "Changed Files"
+description: "Get all added, copied, modified, deleted, renamed, type changed, unmerged, unknown, or all changed files."
+author: "tj-actions"
+
+inputs:
+  token:
+    description: "GITHUB_TOKEN or a repo scoped PAT."
+    default: ${{ github.token }}
+  separator:
+    description: "Separator used to split the filenames."
+    default: " "
+  include_all_old_new_renamed_files:
+    description: "Include all_old_new_renamed_files output. Note this can be very large."
+    default: "false"
+  old_new_separator:
+    description: "Separator used to split old and new filenames for renamed files."
+    default: ","
+  old_new_files_separator:
+    description: "Separator used to split multiple old and new filenames for renamed files."
+    default: " "
+  files:
+    description: "File and directory patterns to detect changes in (Defaults to the entire repo)."
+    required: false
+    default: ""
+  files_separator:
+    description: "Separator used to split the files input."
+    default: "\n"
+  files_ignore:
+    description: "File and directory patterns to ignore."
+    required: false
+    default: ""
+  files_ignore_separator:
+    description: "Separator used to split the files_ignore input."
+    default: "\n"
+  files_from_source_file:
+    description: "Source file(s) used to populate the files input."
+    required: false
+    default: ""
+  files_from_source_file_separator:
+    description: "Separator used to split the files_from_source_file input."
+    default: "\n"
+  files_ignore_from_source_file:
+    description: "Source file(s) used to populate the files_ignore input."
+    required: false
+    default: ""
+  files_ignore_from_source_file_separator:
+    description: "Separator used to split the files_ignore_from_source_file input."
+    default: "\n"
+  sha:
+    description: "Specify a different commit SHA to use for comparing changes."
+    default: ${{ github.sha }}
+  base_sha:
+    description: "Specify a different base commit SHA to use for comparing changes."
+    required: false
+  since:
+    description: "Filter changed files by the date and time of a commit."
+    required: false
+    default: ""
+  until:
+    description: "Filter changed files by the date and time of a commit."
+    required: false
+    default: ""
+  path:
+    description: "Relative path under GITHUB_WORKSPACE to the repository."
+    required: false
+    default: ""
+  quotepath:
+    description: "Use non-quoted filenames in the output and in file patterns."
+    default: "true"
+  diff_relative:
+    description: "Exclude changes outside the current directory and show path names relative to it."
+    required: false
+    default: "false"
+  dir_names:
+    description: "Output unique changed directories instead of filenames."
+    default: "false"
+  dir_names_max_depth:
+    description: "Maximum depth of directories to output."
+    required: false
+    default: ""
+  dir_names_exclude_current_dir:
+    description: "Exclude the current directory represented by '.' from the output when dir_names is set to 'true'."
+    default: "false"
+  json:
+    description: "Output list of changed files in a JSON formatted string."
+    default: "false"
+  escape_json:
+    description: "Escape JSON output."
+    default: "true"
+  fetch_depth:
+    description: "Depth of additional branch history fetched."
+    default: "50"
+  since_last_remote_commit:
+    description: "Use the last remote commit to compare changes."
+    default: "false"
+  write_output_files:
+    description: "Write outputs to files in .github/outputs folder."
+    default: "false"
+  output_dir:
+    description: "Directory to store output files."
+    default: ".github/outputs"
+  matrix:
+    description: "JSON string with matrix values for use with a matrix strategy."
+    required: false
+    default: ""
+
+outputs:
+  added_files:
+    description: "List of added files."
+    value: ${{ steps.changed-files.outputs.added_files }}
+  copied_files:
+    description: "List of copied files."
+    value: ${{ steps.changed-files.outputs.copied_files }}
+  deleted_files:
+    description: "List of deleted files."
+    value: ${{ steps.changed-files.outputs.deleted_files }}
+  modified_files:
+    description: "List of modified files."
+    value: ${{ steps.changed-files.outputs.modified_files }}
+  renamed_files:
+    description: "List of renamed files."
+    value: ${{ steps.changed-files.outputs.renamed_files }}
+  all_old_new_renamed_files:
+    description: "List of all old and new names of renamed files."
+    value: ${{ steps.changed-files.outputs.all_old_new_renamed_files }}
+  type_changed_files:
+    description: "List of files that had type changes."
+    value: ${{ steps.changed-files.outputs.type_changed_files }}
+  unmerged_files:
+    description: "List of unmerged files."
+    value: ${{ steps.changed-files.outputs.unmerged_files }}
+  unknown_files:
+    description: "List of unknown files."
+    value: ${{ steps.changed-files.outputs.unknown_files }}
+  all_changed_and_modified_files:
+    description: "List of all copied, renamed, added, modified, deleted, and type changed files."
+    value: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
+  all_changed_files:
+    description: "List of all copied, renamed, and added files."
+    value: ${{ steps.changed-files.outputs.all_changed_files }}
+  all_modified_files:
+    description: "List of all copied, renamed, added, and modified files."
+    value: ${{ steps.changed-files.outputs.all_modified_files }}
+  any_changed:
+    description: "Boolean indicating if any files were changed."
+    value: ${{ steps.changed-files.outputs.any_changed }}
+  only_changed:
+    description: "Boolean indicating if only the files listed in the files input were changed."
+    value: ${{ steps.changed-files.outputs.only_changed }}
+  other_changed_files:
+    description: "List of any other changed files not listed in the files input."
+    value: ${{ steps.changed-files.outputs.other_changed_files }}
+  any_modified:
+    description: "Boolean indicating if any files were modified."
+    value: ${{ steps.changed-files.outputs.any_modified }}
+  only_modified:
+    description: "Boolean indicating if only the files listed in the files input were modified."
+    value: ${{ steps.changed-files.outputs.only_modified }}
+  other_modified_files:
+    description: "List of any other modified files not listed in the files input."
+    value: ${{ steps.changed-files.outputs.other_modified_files }}
+  any_deleted:
+    description: "Boolean indicating if any files were deleted."
+    value: ${{ steps.changed-files.outputs.any_deleted }}
+  only_deleted:
+    description: "Boolean indicating if only the files listed in the files input were deleted."
+    value: ${{ steps.changed-files.outputs.only_deleted }}
+  other_deleted_files:
+    description: "List of any other deleted files not listed in the files input."
+    value: ${{ steps.changed-files.outputs.other_deleted_files }}
+  change_type:
+    description: "JSON object mapping each changed file to its change type."
+    value: ${{ steps.changed-files.outputs.change_type }}
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
