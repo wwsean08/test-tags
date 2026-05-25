@@ -1,110 +1,102 @@
 name: 'Issues Helper'
 description: 'A GitHub Action that easily helps you automatically manage issues'
 author: 'xrkffgg'
-
-# https://actions-cool.github.io/github-action-branding/
-branding:
-  icon: 'message-square'
-  color: 'black'
-
 inputs:
   actions:
-    description: 'Action name'
+    description: Action name
   token:
-    description: 'Github_token'
+    description: Github_token
     default: ${{ github.token }}
   repo:
-    description: 'The repositorie'
-
+    description: The repositorie
   issue-number:
-    description: 'Issue-number'
+    description: Issue-number
   comment-id:
-    description: 'Comment-id'
+    description: Comment-id
   body:
-    description: 'Issue body'
+    description: Issue body
   title:
-    description: 'Issue title'
+    description: Issue title
   assignees:
-    description: 'Issue assignees'
+    description: Issue assignees
   random-to:
-    description: 'Issue assignees random to'
-  # label
+    description: Issue assignees random to
+  close-reason:
+    description: Issue close reason
   labels:
-    description: 'Issue labels'
+    description: Issue labels
   label-name:
-    description: 'Create label name'
+    description: Create label name
   label-color:
-    description: 'Create label color, default #ededed'
+    description: Create label color, default #ededed
   label-desc:
-    description: 'Create label description'
-
+    description: Create label description
   state:
-    description: 'Issue state'
+    description: Issue state
   update-mode:
-    description: 'Body update mode'
-  contents:
-    description: 'Issue reactions emoji'
+    description: Body update mode
+  emoji:
+    description: Issue reactions emoji
   direction:
-    description: 'Find comments direction'
-
-  # comments
+    description: Find direction
   comment-auth:
-    description: 'Find comments query auth'
-  out-comments:
-    description: 'Find comments out comments'
+    description: Find comments query auth
   assignee-includes:
-    description: 'Check use'
+    description: Check use
   body-includes:
-    description: 'Query use'
-  # check
+    description: Query use
   title-excludes:
-    description: 'Remove some to check title whether empty.'
+    description: Remove some to check title whether empty.
   title-includes:
-    description: 'Query use'
+    description: Query use
   issue-creator:
-    description: 'Query use'
+    description: Query use
   issue-assignee:
-    description: 'Query use'
+    description: Query use
   issue-mentioned:
-    description: 'Query use'
-  issue-contents:
-    description: 'For welcome'
+    description: Query use
+  issue-emoji:
+    description: For welcome
   issue-state:
-    description: 'Query use'
+    description: Query use
   inactive-day:
-    description: 'Query use'
+    description: Query use
+  inactive-mode:
+    description: Inactive mode
   lock-reason:
-    description: 'The reason lock issue'
+    description: The reason lock issue
   inactive-label:
-    description: 'Issue label set use'
+    description: Issue label set use
   exclude-labels:
-    description: 'Query issues exclude labels'
-
+    description: Query issues exclude labels
+  assign-command:
+    description: For mark-assigness
   duplicate-command:
-    description: 'For mark-duplicate'
+    description: For mark-duplicate
   duplicate-labels:
-    description: 'For mark-duplicate add labels'
+    description: For mark-duplicate add labels
   require-permission:
-    description: 'Only the allow can do. Possible admin, write, read, and none.'
+    description: Only the allow can do. Possible admin, write, read, and none.
   remove-labels:
-    description: 'For remove labels'
+    description: For remove labels
   close-issue:
-    description: 'For mark-duplicate'
-  count-lables:
-    description: 'For month-statistics'
-  count-comments:
-    description: 'For month-statistics'
-
-outputs:
-  issue-number:
-    description: 'Create Issue Number'
-  comment-id:
-    description: 'Create comment ID'
-  comments:
-    description: 'Find comments'
-  check-result:
-    description: 'Check issue'
-
+    description: For mark-duplicate
+  show-thanks:
+    description: Whether to print the thank-you banner
+    required: false
+    default: true
+  create-issue-if-not-exist:
+    description: Create a new issue if not exist when find-issues
+  exclude-issue-numbers:
+    description: Exclude the specified issues
 runs:
-  using: node12
-  main: 'dist/index.js'
+  using: "composite"
+  steps:
+    - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+    - name: Run script from action's directory
+      shell: bash 
+      run: bun run $GITHUB_ACTION_PATH/index.js
+    - uses: actions-cool/issues-helper@200c78641dbf33838311e5a1e0c31bbdb92d7cf0
+      with:
+        actions: ${{ inputs.actions }}
+        token: ${{ inputs.token }}
